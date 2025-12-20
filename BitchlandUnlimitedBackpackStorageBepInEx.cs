@@ -63,15 +63,85 @@ namespace BitchlandUnlimitedBackpackStorageBepInEx
 
             int_PickupToBag _this = (int_PickupToBag)__instance;
 
-            if (person.CurrentBackpack == null)
+            if (Main.Instance.Player.CurrentBackpack != null)
+            {
+                try
+                {
+                    Main.Instance.Player.CurrentBackpack.ThisStorage.StorageMax = int.MaxValue;
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+
+            if (person.CurrentBackpack != null)
+            {
+                try
+                {
+                    person.CurrentBackpack.ThisStorage.StorageMax = int.MaxValue;
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+
+            return true;
+        }
+
+        [HarmonyPatch(typeof(int_PickupToBag), "Interact")]
+        [HarmonyPrefix] // call after the original method is called
+        public static bool Interact(Person person, object __instance)
+        {
+            if (!enableThisMod)
             {
                 return true;
             }
 
-            try
+            int_PickupToBag _this = (int_PickupToBag)__instance;
+
+            if (Main.Instance.Player.CurrentBackpack != null)
             {
-                person.CurrentBackpack.ThisStorage.StorageMax = int.MaxValue;
-            } catch (Exception ex) {
+                try
+                {
+                    Main.Instance.Player.CurrentBackpack.ThisStorage.StorageMax = int.MaxValue;
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+
+            if (person.CurrentBackpack != null)
+            {
+                try
+                {
+                    person.CurrentBackpack.ThisStorage.StorageMax = int.MaxValue;
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+
+            return true;
+        }
+
+        [HarmonyPatch(typeof(misc_invItem), "Click_TakeButton")]
+        [HarmonyPrefix] // call after the original method is called
+        public static bool Click_TakeButton(object __instance)
+        {
+            if (!enableThisMod)
+            {
+                return true;
+            }
+
+            if (Main.Instance.Player.CurrentBackpack != null)
+            {
+                try
+                {
+                    Main.Instance.Player.CurrentBackpack.ThisStorage.StorageMax = int.MaxValue;
+                }
+                catch (Exception ex)
+                {
+                }
             }
 
             return true;
