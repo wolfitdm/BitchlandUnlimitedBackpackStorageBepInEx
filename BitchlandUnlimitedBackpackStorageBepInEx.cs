@@ -53,7 +53,7 @@ namespace BitchlandUnlimitedBackpackStorageBepInEx
         }
 
         [HarmonyPatch(typeof(int_PickupToBag), "CheckCanInteract")]
-        [HarmonyPrefix] // call after the original method is called
+        [HarmonyPrefix] // call before the original method is called
         public static bool CheckCanInteract(Person person, object __instance)
         {
             if (!enableThisMod)
@@ -61,9 +61,21 @@ namespace BitchlandUnlimitedBackpackStorageBepInEx
                 return true;
             }
 
+
             int_PickupToBag _this = (int_PickupToBag)__instance;
 
-            if (Main.Instance.Player.CurrentBackpack != null)
+            bool haveBackpack = false;
+
+            try
+            {
+                haveBackpack = Main.Instance.Player.CurrentBackpack != null;
+            }
+            catch (Exception ex)
+            {
+                haveBackpack = false;
+            }
+
+            if (haveBackpack)
             {
                 try
                 {
@@ -74,7 +86,16 @@ namespace BitchlandUnlimitedBackpackStorageBepInEx
                 }
             }
 
-            if (person.CurrentBackpack != null)
+            try
+            {
+                haveBackpack = person.CurrentBackpack != null;
+            }
+            catch (Exception ex)
+            {
+                haveBackpack = false;
+            }
+
+            if (haveBackpack)
             {
                 try
                 {
@@ -89,7 +110,7 @@ namespace BitchlandUnlimitedBackpackStorageBepInEx
         }
 
         [HarmonyPatch(typeof(int_PickupToBag), "Interact")]
-        [HarmonyPrefix] // call after the original method is called
+        [HarmonyPrefix] // call before the original method is called
         public static bool Interact(Person person, object __instance)
         {
             if (!enableThisMod)
@@ -99,7 +120,18 @@ namespace BitchlandUnlimitedBackpackStorageBepInEx
 
             int_PickupToBag _this = (int_PickupToBag)__instance;
 
-            if (Main.Instance.Player.CurrentBackpack != null)
+            bool haveBackpack = false;
+
+            try
+            {
+                haveBackpack = Main.Instance.Player.CurrentBackpack != null;
+            }
+            catch (Exception ex)
+            {
+                haveBackpack = false;
+            }
+
+            if (haveBackpack)
             {
                 try
                 {
@@ -110,7 +142,15 @@ namespace BitchlandUnlimitedBackpackStorageBepInEx
                 }
             }
 
-            if (person.CurrentBackpack != null)
+            try
+            {
+                haveBackpack = person.CurrentBackpack != null;
+            } catch (Exception ex)
+            {
+                haveBackpack = false;
+            }
+
+            if (haveBackpack)
             {
                 try
                 {
@@ -125,7 +165,7 @@ namespace BitchlandUnlimitedBackpackStorageBepInEx
         }
 
         [HarmonyPatch(typeof(misc_invItem), "Click_TakeButton")]
-        [HarmonyPrefix] // call after the original method is called
+        [HarmonyPrefix] // call before the original method is called
         public static bool Click_TakeButton(object __instance)
         {
             if (!enableThisMod)
@@ -133,7 +173,119 @@ namespace BitchlandUnlimitedBackpackStorageBepInEx
                 return true;
             }
 
-            if (Main.Instance.Player.CurrentBackpack != null)
+            bool haveBackpack = false;
+
+            try
+            {
+                haveBackpack = Main.Instance.Player.CurrentBackpack != null;
+            }
+            catch (Exception ex)
+            {
+                haveBackpack = false;
+            }
+
+            if (haveBackpack)
+            {
+                try
+                {
+                    Main.Instance.Player.CurrentBackpack.ThisStorage.StorageMax = int.MaxValue;
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+
+            return true;
+        }
+
+        [HarmonyPatch(typeof(misc_invItem), "Click_PutButton")]
+        [HarmonyPrefix] // call before the original method is called
+        public static bool Click_PutButton(object __instance)
+        {
+            if (!enableThisMod)
+            {
+                return true;
+            }
+
+            bool haveBackpack = false;
+
+            try
+            {
+                haveBackpack = Main.Instance.Player.CurrentBackpack != null;
+            }
+            catch (Exception ex)
+            {
+                haveBackpack = false;
+            }
+
+            if (haveBackpack)
+            {
+                try
+                {
+                    Main.Instance.Player.CurrentBackpack.ThisStorage.StorageMax = int.MaxValue;
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+
+            return true;
+        }
+
+        [HarmonyPatch(typeof(misc_invItem), "Click_Opem")]
+        [HarmonyPrefix] // call before the original method is called
+        public static bool Click_Opem(object __instance)
+        {
+            if (!enableThisMod)
+            {
+                return true;
+            }
+
+            bool haveBackpack = false;
+
+            try
+            {
+                haveBackpack = Main.Instance.Player.CurrentBackpack != null;
+            } catch(Exception ex)
+            {
+                haveBackpack = false;
+            }
+
+            if (haveBackpack)
+            {
+                try
+                {
+                    Main.Instance.Player.CurrentBackpack.ThisStorage.StorageMax = int.MaxValue;
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+
+            return true;
+        }
+
+        [HarmonyPatch(typeof(misc_invItem), "Click_BackpackEquip")]
+        [HarmonyPrefix] // call before the original method is called
+        public static bool Click_BackpackEquip(object __instance)
+        {
+            if (!enableThisMod)
+            {
+                return true;
+            }
+
+            bool haveBackpack = false;
+
+            try
+            {
+                haveBackpack = Main.Instance.Player.CurrentBackpack != null;
+            }
+            catch (Exception ex)
+            {
+                haveBackpack = false;
+            }
+
+            if (haveBackpack)
             {
                 try
                 {
